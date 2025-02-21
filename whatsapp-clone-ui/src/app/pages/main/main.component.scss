@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #ccc;
+}
+
+.background-green {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 20%;
+  background-color: #1ea884;
+}
+
+.main-container {
+  position: relative;
+  width: 80%;
+  max-width: 100%;
+  height: calc(100vh - 40px);
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
+}

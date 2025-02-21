@@ -1,3 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+// todo add the emoji styles
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ccc;
+}
+
+.gray-bg {
+  background-color: #f0f2f5;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
