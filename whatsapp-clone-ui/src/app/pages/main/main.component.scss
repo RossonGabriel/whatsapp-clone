@@ -22,3 +22,96 @@
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+.online-status {
+  background: #1ea885;
+  min-width: 10px;
+  max-width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.offline-status {
+  background: #cacaca;
+  min-width: 10px;
+  max-width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-chat {
+  background-color: #efeae2;
+  background-image: url("/wa_bg.png");
+  background-size: contain;
+}
+
+.message-box {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 5px 0;
+
+  &.self {
+    > div {
+      position: relative;
+      right: 0;
+      text-align: right;
+      background: #d9fdd3;
+      max-width: 65%;
+      padding: 10px 10px 0 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    justify-content: flex-end;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #d9fdd3 0%, #d9fdd3 50%, transparent 50%, transparent);
+    }
+  }
+  &.friend {
+    justify-content: flex-start;
+    > div {
+      position: relative;
+      right: 0;
+      text-align: left;
+      background: #fff;
+      max-width: 65%;
+      padding: 10px 10px 0 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(225deg, #fff 0%, #fff 50%, transparent 50%, transparent);
+    }
+  }
+}
+
+i {
+  &.seen {
+    color: #53bdeb;
+  }
+  &.ml-neg {
+    margin-left: -7px;
+  }
+}
