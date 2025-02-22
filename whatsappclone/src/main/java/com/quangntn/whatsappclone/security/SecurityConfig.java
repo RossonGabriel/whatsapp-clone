@@ -27,7 +27,8 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/auth/**",
+                        req
+                                .requestMatchers("/auth/**",
                                         "/v2/api-docs",
                                         "/v3/api-docs",
                                         "/v3/api-docs/**",
@@ -40,13 +41,11 @@ public class SecurityConfig {
                                         "/swagger-ui.html",
                                         "/ws/**")
                                 .permitAll()
-                            .anyRequest()
-                                .authenticated()
-                        )
+                                .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(auth ->
                         auth.jwt(token ->
                                 token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
-
         return http.build();
     }
 
@@ -62,18 +61,15 @@ public class SecurityConfig {
                 HttpHeaders.ACCEPT,
                 HttpHeaders.AUTHORIZATION
         ));
-
-        config.setAllowedHeaders(Arrays.asList(
+        config.setAllowedMethods(Arrays.asList(
                 "GET",
                 "POST",
-                "PUT",
                 "DELETE",
-                "OPTIONS",
+                "PUT",
                 "PATCH"
         ));
-
         source.registerCorsConfiguration("/**", config);
-
         return new CorsFilter(source);
+
     }
 }

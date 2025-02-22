@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ChatListComponent} from '../../components/chat-list/chat-list.component';
 import {ChatResponse} from '../../services/models/chat-response';
 import {ChatService} from '../../services/services/chat.service';
+import {KeycloakService} from '../../utils/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +17,8 @@ export class MainComponent implements OnInit{
   chats: Array<ChatResponse> = [];
 
   constructor(
-    private chatService: ChatService
+    private chatService: ChatService,
+    private keycloakService: KeycloakService
   ) {}
 
   ngOnInit(): void {
@@ -30,5 +32,13 @@ export class MainComponent implements OnInit{
           this.chats = res;
         }
       })
+  }
+
+  logout() {
+    this.keycloakService.logout();
+  }
+
+  userProfile() {
+    this.keycloakService.accountManagement();
   }
 }

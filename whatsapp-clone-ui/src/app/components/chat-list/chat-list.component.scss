@@ -1,0 +1,35 @@
+.chat-list {
+  > div {
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f2f1f1;
+    }
+  }
+}
+
+.border-bottom-gray {
+  border-bottom: solid 1px #ccc;
+}
+
+.msg-date {
+  font-size: 0.7rem;
+
+  &.unread {
+    color: #1fa855;
+    font-weight: 500;
+  }
+}
+
+.unread-msg-badge {
+  background: #1fa855;
+  color: #fff;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
