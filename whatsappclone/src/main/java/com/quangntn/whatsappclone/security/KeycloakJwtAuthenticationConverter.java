@@ -10,9 +10,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,11 +29,12 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
 
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         var resourceAccess = new HashMap<>(jwt.getClaim("resource_access"));
-
-        var eternal = (Map<String, List<String>>)resourceAccess.get("account");
-        var roles = eternal.get("roles");
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.replace("-", "_")))
-                .collect(Collectors.toSet());
+        return Optional.ofNullable(resourceAccess.get("account"))
+                .map(account -> (Map<String, List<String>>) account)
+                .map(accountMap -> accountMap.get("roles"))
+                .map(roles -> roles.stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.replace("-", "_")))
+                        .collect(Collectors.toSet()))
+                .orElse(Collections.emptySet());
     }
 }
