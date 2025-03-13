@@ -1,10 +1,12 @@
 package com.quangntn.whatsappclone.ws;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
@@ -14,11 +16,10 @@ import org.springframework.security.messaging.context.AuthenticationPrincipalArg
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.lang.NonNull;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -27,14 +28,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
+    public void configureMessageBroker(@NonNull MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/user");
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/user");
     }
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/ws")
                 .setAllowedOrigins("http://localhost:4200")
@@ -47,7 +48,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
-    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+    public boolean configureMessageConverters(@NonNull List<MessageConverter> messageConverters) {
         DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
         resolver.setDefaultMimeType(APPLICATION_JSON);
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

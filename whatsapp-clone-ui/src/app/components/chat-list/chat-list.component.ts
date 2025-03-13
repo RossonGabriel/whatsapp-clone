@@ -46,28 +46,37 @@ export class ChatListComponent {
   wrapMessage(lastMessage: string | undefined):string {
     if (lastMessage && lastMessage.length <= 20) {
       return lastMessage;
+    } else if (lastMessage && lastMessage.length > 20) {
+      return lastMessage.substring(0, 17) + '...';
     }
-    return lastMessage?.substring(0, 17) + '...';
+    return 'No messages yet!';
   }
 
   selectContact(contact: UserResponse) {
-    this.chatService.createChat({
-      'sender-id': this.keycloakService.userId as string,
-      'recipient-id': contact.id as string
-    }).subscribe({
-      next: (res) => {
-        const chat: ChatResponse = {
-          id: res.response,
-          name: contact.firstName + ' ' + contact.lastName,
-          recipientOnline: contact.online,
-          lastMessageTime: contact.lastSeen,
-          senderId: this.keycloakService.userId,
-          recipientId: contact.id
-        };
-        this.chats().unshift(chat);
-        this.searchNewContact = false;
-        this.chatSelected.emit(chat);
-      }
-    })
+    const existingChat = this.chats()
+      .filter(chat => chat.senderId === contact.id || chat.recipientId === contact.id);
+    console.log(existingChat);
+    if (existingChat.length === 0) {
+      this.chatService.createChat({
+        'sender-id': this.keycloakService.userId as string,
+        'recipient-id': contact.id as string
+      }).subscribe({
+        next: (res) => {
+          const chat: ChatResponse = {
+            id: res.response,
+            name: contact.firstName + ' ' + contact.lastName,
+            recipientOnline: contact.online,
+            lastMessageTime: contact.lastSeen,
+            senderId: this.keycloakService.userId,
+            recipientId: contact.id
+          };
+          this.chats().unshift(chat);
+          this.searchNewContact = false;
+          this.chatSelected.emit(chat);
+        }
+      })
+    }
+
+    
   }
 }
