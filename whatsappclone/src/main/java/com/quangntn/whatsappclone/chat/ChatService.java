@@ -1,15 +1,17 @@
 package com.quangntn.whatsappclone.chat;
 
-import com.quangntn.whatsappclone.user.User;
-import com.quangntn.whatsappclone.user.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.quangntn.whatsappclone.user.User;
+import com.quangntn.whatsappclone.user.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

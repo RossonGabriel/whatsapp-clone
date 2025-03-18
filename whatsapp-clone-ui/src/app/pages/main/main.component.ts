@@ -65,6 +65,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getAllChatMessages(chatResponse.id as string);
     this.setMessagesToSeen();
     this.selectedChat.unreadCount = 0;
+    console.log(this.chats);
+    console.log("chat is log ----------- chatSelected---------------");
   }
 
   isSelfMessage(message: MessageResponse): boolean {
@@ -174,6 +176,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.chats = res;
         }
       });
+    console.log("this is ----------- getAllChats---------------");
+    
+    console.log(this.chats);
+    console.log("chat is log ----------- getAllChats---------------");
+    
   }
 
   private getAllChatMessages(chatId: string) {

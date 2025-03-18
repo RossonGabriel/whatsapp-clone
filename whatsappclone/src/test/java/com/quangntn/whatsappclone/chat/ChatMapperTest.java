@@ -39,6 +39,7 @@ class ChatMapperTest {
         sender.setId(SENDER_ID);
         sender.setFirstName(SENDER_FIRST_NAME);
         sender.setLastName(SENDER_LAST_NAME);
+        sender.setLastSeen(LocalDateTime.now());
         
         // Setup recipient
         recipient = new User();
