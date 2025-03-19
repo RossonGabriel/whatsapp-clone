@@ -1,4 +1,4 @@
-# WhatsApp Clone
+# <img src="whatsapp-clone-ui/public/icon.png" alt="WhatsApp Clone Icon" width="32" height="32"> WhatsApp Clone 
 
 A real-time chat application built with Spring Boot and Angular, featuring WebSocket communication and Keycloak authentication.
 
