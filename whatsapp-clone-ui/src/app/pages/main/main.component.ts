@@ -65,8 +65,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.getAllChatMessages(chatResponse.id as string);
     this.setMessagesToSeen();
     this.selectedChat.unreadCount = 0;
-    console.log(this.chats);
-    console.log("chat is log ----------- chatSelected---------------");
   }
 
   isSelfMessage(message: MessageResponse): boolean {
@@ -175,12 +173,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
         next: (res) => {
           this.chats = res;
         }
-      });
-    console.log("this is ----------- getAllChats---------------");
-    
-    console.log(this.chats);
-    console.log("chat is log ----------- getAllChats---------------");
-    
+      });  
   }
 
   private getAllChatMessages(chatId: string) {
@@ -204,7 +197,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
             (message: any) => {
               const notification: Notification = JSON.parse(message.body);
               this.handleNotification(notification);
-
             },
             () => console.error('Error while connecting to webSocket')
           );
@@ -213,54 +205,86 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  private handleNotification(notification: Notification) {
+  private handleNotification(notification: Notification): void {
     if (!notification) return;
-    if (this.selectedChat && this.selectedChat.id === notification.chatId) {
-      switch (notification.type) {
-        case 'MESSAGE':
-        case 'IMAGE':
-          const message: MessageResponse = {
-            senderId: notification.senderId,
-            recipientId: notification.recipientId,
-            content: notification.content,
-            type: notification.messageType,
-            media: notification.media,
-            createdAt: new Date().toString()
-          };
-          if (notification.type === 'IMAGE') {
-            this.selectedChat.lastMessage = 'Attachment';
-          } else {
-            this.selectedChat.lastMessage = notification.content;
-          }
-          this.chatMessages.push(message);
-          break;
-        case 'SEEN':
-          this.chatMessages.forEach(m => m.state = 'SEEN');
-          break;
-      }
+
+    if (this.isNotificationForSelectedChat(notification)) {
+      this.handleSelectedChatNotification(notification);
     } else {
-      const destChat = this.chats.find(c => c.id === notification.chatId);
-      if (destChat && notification.type !== 'SEEN') {
-        if (notification.type === 'MESSAGE') {
-          destChat.lastMessage = notification.content;
-        } else if (notification.type === 'IMAGE') {
-          destChat.lastMessage = 'Attachment';
-        }
-        destChat.lastMessageTime = new Date().toString();
-        destChat.unreadCount! += 1;
-      } else if (notification.type === 'MESSAGE') {
-        const newChat: ChatResponse = {
-          id: notification.chatId,
-          senderId: notification.senderId,
-          recipientId: notification.recipientId,
-          lastMessage: notification.content,
-          name: notification.chatName,
-          unreadCount: 1,
-          lastMessageTime: new Date().toString()
-        };
-        this.chats.unshift(newChat);
-      }
+      this.handleNonSelectedChatNotification(notification);
     }
+  }
+
+  private isNotificationForSelectedChat(notification: Notification): boolean {
+    return this.selectedChat?.id === notification.chatId;
+  }
+
+  private handleSelectedChatNotification(notification: Notification): void {
+    switch (notification.type) {
+      case 'MESSAGE':
+      case 'IMAGE':
+        this.handleNewMessage(notification);
+        break;
+      case 'SEEN':
+        this.handleSeenStatus();
+        break;
+    }
+  }
+
+  private handleNewMessage(notification: Notification): void {
+    const message = this.createMessageFromNotification(notification);
+    this.updateSelectedChatPreview(notification);
+    this.chatMessages.push(message);
+  }
+
+  private createMessageFromNotification(notification: Notification): MessageResponse {
+    return {
+      senderId: notification.senderId,
+      recipientId: notification.recipientId,
+      content: notification.content,
+      type: notification.messageType,
+      media: notification.media,
+      createdAt: new Date().toString()
+    };
+  }
+
+  private updateSelectedChatPreview(notification: Notification): void {
+    this.selectedChat.lastMessage = notification.type === 'IMAGE' ? 'Attachment' : notification.content;
+  }
+
+  private handleSeenStatus(): void {
+    this.chatMessages.forEach(message => message.state = 'SEEN');
+  }
+
+  private handleNonSelectedChatNotification(notification: Notification): void {
+    const existingChat = this.chats.find(chat => chat.id === notification.chatId);
+
+    if (notification.type === 'SEEN') return;
+
+    if (existingChat) {
+      this.updateExistingChat(existingChat, notification);
+    } else if (notification.type === 'MESSAGE') {
+      this.createNewChat(notification);
+    }
+  }
+
+  private updateExistingChat(chat: ChatResponse, notification: Notification): void {
+    chat.lastMessage = notification.type === 'IMAGE' ? 'Attachment' : notification.content;
+    chat.lastMessageTime = new Date().toString();
+    chat.unreadCount = (chat.unreadCount || 0) + 1;
+  }
+
+  private createNewChat(notification: Notification): void {
+    const newChat: ChatResponse = {
+      id: notification.chatId,
+      senderId: notification.senderId,
+      recipientId: notification.recipientId,
+      lastMessage: notification.content,
+      name: notification.chatName,
+      unreadCount: 1,
+      lastMessageTime: new Date().toString()
+    };
+    this.chats.unshift(newChat);
   }
 
   private getSenderId(): string {
