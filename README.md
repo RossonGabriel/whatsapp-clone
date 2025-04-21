@@ -66,7 +66,7 @@ cd whatsappclone
 mvn clean install
 mvn spring-boot:run
 ```
-The backend will start on `http://localhost:8080`
+The backend will start on `http://localhost:1234`
 
 ### 4. Frontend Setup
 ```bash
@@ -79,8 +79,8 @@ The frontend will start on `http://localhost:4200`
 ## API Documentation
 
 Once the application is running, you can access the API documentation at:
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
-- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+- Swagger UI: `http://localhost:1234/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:1234/v3/api-docs`
 
 ## Configuration
 
@@ -95,16 +95,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/whatsapp-clone
+          issuer-uri: http://localhost:8080/realms/whatsapp-clone
 ```
 
 ### Frontend Configuration
 Update the API and Keycloak configuration in `environment.ts`:
 ```typescript
 export const environment = {
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://localhost:1234',
   keycloak: {
-    url: 'http://localhost:9090',
+    url: 'http://localhost:8080',
     realm: 'whatsapp-clone',
     clientId: 'whatsapp-clone'
   }

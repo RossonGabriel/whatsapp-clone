@@ -1,6 +1,9 @@
+server:
+  port: 1234
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/whatsapp_clone
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/whatsapp_clone}
     username: username
     password: password
   jpa:
@@ -12,13 +15,11 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-  flyway:
-    enabled: false
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/whatsapp-clone
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8080}/realms/whatsapp-clone
   servlet:
     multipart:
       max-file-size: 50MB
