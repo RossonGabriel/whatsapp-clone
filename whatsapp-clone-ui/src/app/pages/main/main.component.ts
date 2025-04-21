@@ -13,6 +13,7 @@ import {Notification} from './models/notification';
 import {ChatService} from '../../services/services/chat.service';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 import {EmojiData} from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -188,7 +189,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private initWebSocket() {
     if (this.keycloakService.keycloak.tokenParsed?.sub) {
-      let ws = new SockJS('http://localhost:8080/ws');
+      let ws = new SockJS(`${environment.apiUrl}/ws`);
       this.socketClient = Stomp.over(ws);
       const subUrl = `/user/${this.keycloakService.keycloak.tokenParsed?.sub}/chat`;
       this.socketClient.connect({'Authorization': 'Bearer ' + this.keycloakService.keycloak.token},

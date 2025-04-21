@@ -18,7 +18,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/whatsapp-clone
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8080}/realms/whatsapp-clone
 
 springdoc:
   default-produces-media-type: application/json

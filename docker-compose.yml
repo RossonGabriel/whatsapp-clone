@@ -12,26 +12,38 @@ services:
     ports:
       - 5432:5432
     networks:
-      - whatsapp-clone
+      - whatsapp_clone
     restart: unless-stopped
-  keycloak:
-    container_name: keycloak-wac
-    image: quay.io/keycloak/keycloak:26.0.0
-    ports:
-      - 9090:8080
+  backend:
+    container_name: whatsapp-clone-backend
+    build:
+      context: ./whatsappclone
+      dockerfile: Dockerfile
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/whatsapp_clone
+      KEYCLOAK_URL: http://192.168.1.38:8080
+    ports:
+      - 1234:1234
+    depends_on:
+      - postgres
+    restart: unless-stopped
     networks:
-      - whatsapp-clone
-    command:
-      - "start-dev"
-
+      - whatsapp_clone
+  frontend:
+    container_name: whatsapp-clone-frontend
+    build:
+      context: ./whatsapp-clone-ui
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    restart: unless-stopped
+    networks:
+      - whatsapp_clone
 
 networks:
-  whatsapp-clone:
+  whatsapp_clone:
     driver: bridge
-
+    
 volumes:
   postgres:
     driver: local

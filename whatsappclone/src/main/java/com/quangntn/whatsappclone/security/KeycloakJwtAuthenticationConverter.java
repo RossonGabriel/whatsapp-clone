@@ -1,5 +1,6 @@
 package com.quangntn.whatsappclone.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -18,9 +19,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j(topic = "KEYCLOAK-JWT-AUTHENTICATION-CONVERTER")
 public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
     @Override
     public AbstractAuthenticationToken convert(@NonNull Jwt source) {
+        log.info("KeycloakJwtAuthenticationConverter convert start");
         return new JwtAuthenticationToken(source,
                 Stream.concat(new JwtGrantedAuthoritiesConverter().convert(source).stream(),
                         extractResourceRoles(source).stream()
@@ -28,6 +31,7 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
     }
 
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
+        log.info("KeycloakJwtAuthenticationConverter extractResourceRoles start");
         var resourceAccess = new HashMap<>(jwt.getClaim("resource_access"));
         return Optional.ofNullable(resourceAccess.get("account"))
                 .map(account -> (Map<String, List<String>>) account)

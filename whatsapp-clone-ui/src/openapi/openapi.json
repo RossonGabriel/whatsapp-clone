@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "http://localhost:1234",
       "description": "Generated server url"
     }
   ],
@@ -357,8 +357,8 @@
         "bearerFormat": "JWT",
         "flows": {
           "password": {
-            "authorizationUrl": "http://localhost:9090/realms/whatsapp-clone/protocol/openid-connect/auth",
-            "tokenUrl": "http://localhost:9090/realms/whatsapp-clone/protocol/openid-connect/token",
+            "authorizationUrl": "http://192.168.1.38:8080/realms/whatsapp-clone/protocol/openid-connect/auth",
+            "tokenUrl": "http://192.168.1.38:8080/realms/whatsapp-clone/protocol/openid-connect/token",
             "scopes": {
 
             }
