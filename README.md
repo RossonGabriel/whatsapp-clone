@@ -1,8 +1,6 @@
 # <img src="whatsapp-clone-ui/public/icon.png" alt="WhatsApp Clone Icon" width="32" height="32"> WhatsApp Clone 
 
 ## About
-![Build Status](http://c140-2402-800-6314-28de-e9e7-4fd2-ab6a-43e4.ngrok-free.app/job/whatsapp-clone/badge/icon)
-
 A real-time chat application built with Spring Boot and Angular, featuring WebSocket communication and Keycloak authentication.
 
 ## Features
