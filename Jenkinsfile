@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-        stage("Test Backend Application"){
+        stage("Test Backend"){
             steps {
                 dir('whatsappclone') {
                     bat "mvn -v"
@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage("Build Backend Application"){
+        stage("Build Backend"){
             steps {
                 dir('whatsappclone') {
                     bat "mvn clean package -DskipTests"
@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        stage("Deploy Application Backend"){
+        stage("Deploy Backend"){
             steps {
                 script {
                     bat 'docker compose up -d --build backend'
@@ -43,7 +43,7 @@ pipeline {
             }
         }
 
-        stage("Deploy Application Frontend"){
+        stage("Deploy Frontend"){
             steps {
                 script {
                     bat 'docker compose up -d --build frontend'

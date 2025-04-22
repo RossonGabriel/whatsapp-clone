@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.eq;
 
 class NotificationServiceTest {
 
@@ -36,9 +35,9 @@ class NotificationServiceTest {
 
         // Then
         verify(messagingTemplate, times(1)).convertAndSendToUser(
-                eq(userId),
-                eq("/chat"),
-                eq(notification)
+                userId,
+                "/chat",
+                notification
         );
     }
 } 

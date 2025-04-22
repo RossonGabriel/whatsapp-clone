@@ -1,5 +1,8 @@
 # <img src="whatsapp-clone-ui/public/icon.png" alt="WhatsApp Clone Icon" width="32" height="32"> WhatsApp Clone 
 
+## About
+[![Build Status](http://c140-2402-800-6314-28de-e9e7-4fd2-ab6a-43e4.ngrok-free.app/job/whatsapp-clone/badge/icon)](http://c140-2402-800-6314-28de-e9e7-4fd2-ab6a-43e4.ngrok-free.app/job/whatsapp-clone/)
+
 A real-time chat application built with Spring Boot and Angular, featuring WebSocket communication and Keycloak authentication.
 
 ## Features
@@ -21,7 +24,6 @@ A real-time chat application built with Spring Boot and Angular, featuring WebSo
 - Spring WebSocket
 - Spring Data JPA
 - PostgreSQL
-- Flyway Migration
 - Lombok
 - OpenAPI/Swagger Documentation
 
@@ -35,7 +37,7 @@ A real-time chat application built with Spring Boot and Angular, featuring WebSo
 - Bootstrap 5
 
 ### Authentication
-- Keycloak 26.1.2
+- Keycloak 26.0.0
 
 ## Prerequisites
 
@@ -56,7 +58,7 @@ CREATE DATABASE whatsapp_clone;
 1. Download and start Keycloak server
 2. Create a new realm: `whatsapp-clone`
 3. Configure client settings:
-   - Client ID: `whatsapp-clone`
+   - Client ID: `whatsapp-clone-app`
    - Access Type: `public`
    - Valid Redirect URIs: `http://localhost:4200/*`
 

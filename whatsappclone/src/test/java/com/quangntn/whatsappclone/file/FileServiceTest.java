@@ -14,10 +14,11 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
+import static org.mockito.MockitoAnnotations.openMocks;
+
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileServiceTest {
+class FileServiceTest {
 
     @Mock
     private MultipartFile multipartFile;
@@ -30,7 +31,7 @@ public class FileServiceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        MockitoAnnotations.openMocks(this);
+        openMocks(this);
         // Set the upload directory using reflection
         Field fileUploadPathField = FileService.class.getDeclaredField("fileUploadPath");
         fileUploadPathField.setAccessible(true);

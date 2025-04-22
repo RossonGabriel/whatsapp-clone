@@ -38,9 +38,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
   private notificationSubscription: any;
 
   constructor(
-    private chatService: ChatService,
-    private messageService: MessageService,
-    private keycloakService: KeycloakService,
+    private readonly chatService: ChatService,
+    private readonly messageService: MessageService,
+    private readonly keycloakService: KeycloakService,
   ) {
   }
 
@@ -174,7 +174,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
         next: (res) => {
           this.chats = res;
         }
-      });  
+      });
   }
 
   private getAllChatMessages(chatId: string) {
@@ -272,7 +272,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
   private updateExistingChat(chat: ChatResponse, notification: Notification): void {
     chat.lastMessage = notification.type === 'IMAGE' ? 'Attachment' : notification.content;
     chat.lastMessageTime = new Date().toString();
-    chat.unreadCount = (chat.unreadCount || 0) + 1;
+    chat.unreadCount = (chat.unreadCount ?? 0) + 1;
   }
 
   private createNewChat(notification: Notification): void {
@@ -290,7 +290,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private getSenderId(): string {
     if (this.selectedChat.senderId === this.keycloakService.userId) {
-      return this.selectedChat.senderId as string;
+      return this.selectedChat.senderId;
     }
     return this.selectedChat.recipientId as string;
   }

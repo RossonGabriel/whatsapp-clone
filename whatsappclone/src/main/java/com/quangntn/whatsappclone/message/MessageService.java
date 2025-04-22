@@ -25,10 +25,11 @@ public class MessageService {
     private final MessageMapper mapper;
     private final FileService fileService;
     private final NotificationService notificationService;
+    private static final String  CHAT_NOT_FOUND_MSG = "Chat not found";
 
     public void saveMessage(MessageRequest messageRequest) {
         Chat chat = chatRepository.findById(messageRequest.getChatId())
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+                .orElseThrow(() -> new EntityNotFoundException(CHAT_NOT_FOUND_MSG));
 
         Message message = new Message();
         message.setChat(chat);
@@ -63,7 +64,7 @@ public class MessageService {
     @Transactional
     public void setMessageToSeen(String chatId, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+                .orElseThrow(() -> new EntityNotFoundException(CHAT_NOT_FOUND_MSG));
 
         final String recipientId = getRecipientId(chat, authentication);
 
@@ -81,7 +82,7 @@ public class MessageService {
 
     public void uploadMediaMessage(String chatId, MultipartFile file, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+                .orElseThrow(() -> new EntityNotFoundException(CHAT_NOT_FOUND_MSG));
 
         final String senderId = getSenderId(chat, authentication);
         final String recipientId = getRecipientId(chat, authentication);

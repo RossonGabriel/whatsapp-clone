@@ -22,9 +22,9 @@ export class ChatListComponent {
   chatSelected = output<ChatResponse>()
 
   constructor(
-    private userService: UserService,
-    private chatService: ChatService,
-    private keycloakService: KeycloakService
+    private readonly userService: UserService,
+    private readonly chatService: ChatService,
+    private readonly keycloakService: KeycloakService
   ) {
 
   }
@@ -58,7 +58,7 @@ export class ChatListComponent {
     console.log(existingChat);
     if (existingChat.length === 0) {
       this.chatService.createChat({
-        'sender-id': this.keycloakService.userId as string,
+        'sender-id': this.keycloakService.userId,
         'recipient-id': contact.id as string
       }).subscribe({
         next: (res) => {
@@ -77,6 +77,6 @@ export class ChatListComponent {
       })
     }
 
-    
+
   }
 }

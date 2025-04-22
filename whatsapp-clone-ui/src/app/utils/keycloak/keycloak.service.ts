@@ -11,7 +11,7 @@ export class KeycloakService {
   private _keycloak: Keycloak | undefined;
 
   constructor(
-    private router: Router
+    private readonly router: Router
   ) {
   }
 
@@ -27,7 +27,7 @@ export class KeycloakService {
   }
 
   async init() {
-    const authenticated = await this.keycloak.init({
+    await this.keycloak.init({
       onLoad: 'login-required',
       // silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
       // checkLoginIframe: false
