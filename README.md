@@ -89,8 +89,8 @@ Once the application is running, you can access the API documentation at:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/whatsapp_clone
-    username: your_username
-    password: your_password
+    username: username
+    password: password
   security:
     oauth2:
       resourceserver:
